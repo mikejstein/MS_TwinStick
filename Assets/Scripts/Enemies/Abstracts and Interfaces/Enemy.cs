@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 /*
  * Abstract base class for an enemy.
@@ -7,10 +8,14 @@ using System.Collections;
 abstract public class Enemy : MonoBehaviour {
 
     public GameObject target;
-    IEnemyMovement movement;
-	// Use this for initialization
-	void Start () {
+    protected IEnemyMovement movement;
+    protected Action<Vector3> inRange;
+
+    // Use this for initialization
+    protected void Start () {
         movement = GetComponent<IEnemyMovement>(); //get our movement component
+        movement.inRange += InRange; //
+        movement.outRange += OutRange;
         SetTarget(GameObject.FindGameObjectWithTag("Player")); //cache a reference to our target. On start, it's assumed to be the player
 	}
 	
@@ -29,5 +34,12 @@ abstract public class Enemy : MonoBehaviour {
     {
         target = newTarget;
     }
+
+
+    /*
+     * Called by Movement to tell me that I have either moved in or out of range of an attack
+     */
+    public abstract void InRange(Vector3 target);
+    public abstract void OutRange();
 
 }
