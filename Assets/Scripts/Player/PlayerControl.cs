@@ -1,17 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Class that determines how the player object responds to input.
+ */
 public class PlayerControl : MonoBehaviour {
 
     public float moveSpeed = 10; // How fast we move around
-    public float turnSpeed = 50; // How fast we turn around
-    private Rigidbody rb;
+
+    private Rigidbody rb; //our rigid body
+
+    private IPlayerAttack attackComponent;
 
 	// Use this for initialization
 	void Start () {
         PlayerInput.inputPolled += MoveAndShoot; //make sure we're subscribed to the event out of Player Input
 
         rb = GetComponent<Rigidbody>(); // Connect our rigidibody variable to our rigidbody component
+        attackComponent = GetComponent<IPlayerAttack>(); //cache a reference to our attack script
 	}
 	
 	// Update is called once per frame
@@ -30,7 +36,21 @@ public class PlayerControl : MonoBehaviour {
         rb.MovePosition(transform.position + movement);
 
         /* Calculate our shoot vector.
-         * For this, we actually 
+         * Similar to the above calcuation, we're turning the axis on the right stick into a direction.
+         * We only tell the attack componenet to fire if the right stick is actually doing something (if the direction magnitue is > 0)
          */
+        Vector3 shotDirection = transform.TransformDirection(new Vector3(rightX, 0, rightY * -1));
+        if (attackComponent != null)
+        {
+            if (shotDirection.sqrMagnitude > 0)
+            {
+                attackComponent.Attack(shotDirection);
+            } else
+            {
+                attackComponent.EndAttack();
+            }
+        }
     }
+
+
 }
