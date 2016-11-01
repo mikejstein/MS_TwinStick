@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyBAttack : MonoBehaviour {
+public class EnemyBAttack : MonoBehaviour, IAttack {
     public GameObject projectile;
-	// Use this for initialization
-	void Start () {
-	
+    public GameObject spawnPoint;
+    public float coolDown;
+    private float lastFireTime;
+    // Use this for initialization
+    void Start () {
+        lastFireTime = Time.time - coolDown;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     public void StopAttack()
     {
@@ -21,12 +20,16 @@ public class EnemyBAttack : MonoBehaviour {
     /*
      * Start the attack - set move speed to our attack speed
      */
-    public void StartAttack()
+    public void StartAttack(Vector3 target)
     {
-        /*
-        * 1. Instantiate the projectile.
-        * 2. Fire the projectile.
-        * 3. Start a co-routine for when we fire the next projectile
-        */
+        //Instantiate the projectile
+        if (Time.time - lastFireTime >= coolDown)
+        {
+            GameObject rocket = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
+            rocket.GetComponent<Projectile>().SetTarget(target);
+            rocket.GetComponent<Projectile>().fire();
+            lastFireTime = Time.time;
+        }
+
     }
 }

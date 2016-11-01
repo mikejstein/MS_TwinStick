@@ -47,19 +47,21 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Damage\IDoesDamage.cs" />
-     <Compile Include="Assets\Scripts\Enemies\A\EnemyA.cs" />
      <Compile Include="Assets\Scripts\Enemies\A\EnemyAAttack.cs" />
-     <Compile Include="Assets\Scripts\Enemies\A\EnemyAMovement.cs" />
-     <Compile Include="Assets\Scripts\Enemies\Abstracts and Interfaces\Enemy.cs" />
-     <Compile Include="Assets\Scripts\Enemies\Abstracts and Interfaces\EnemyMovement.cs" />
-     <Compile Include="Assets\Scripts\Enemies\Abstracts and Interfaces\IEnemyMovement.cs" />
-     <Compile Include="Assets\Scripts\Enemies\B\EnemyB.cs" />
      <Compile Include="Assets\Scripts\Enemies\B\EnemyBAttack.cs" />
-     <Compile Include="Assets\Scripts\Enemies\B\EnemyBMovement.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Enemy.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Movement\Boom.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Movement\Charge.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Movement\Jump.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Movement\Ranged.cs" />
+     <Compile Include="Assets\Scripts\Enemies\_Abstracts and Interfaces\EnemyMovement.cs" />
+     <Compile Include="Assets\Scripts\Enemies\_Abstracts and Interfaces\IAttack.cs" />
+     <Compile Include="Assets\Scripts\Enemies\_Abstracts and Interfaces\IEnemyMovement.cs" />
      <Compile Include="Assets\Scripts\Player\IPlayerAttack.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerControl.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerInput.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerLaserAttack.cs" />
+     <Compile Include="Assets\Scripts\Weapons\IWeapon.cs" />
      <Compile Include="Assets\Scripts\Weapons\Projectile.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity5-3-1/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
