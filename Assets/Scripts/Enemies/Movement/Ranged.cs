@@ -34,7 +34,6 @@ public class Ranged : EnemyMovement {
 
     protected override void insideBehavior()
     {
-
         target = gameObject.transform.position; //my target is my location
         LerpLookAt(playerLocation); //look at the player
 
@@ -42,7 +41,11 @@ public class Ranged : EnemyMovement {
         // Hooray for linear algebra - dot product will tell the orientiation of player to me : 0 is 90 degree, 1 is in front, -1 is behind
         // So, as long as I'm greater than 0.5, i'm in the right spot.
         Vector3 toPlayer = playerLocation - gameObject.transform.position; //Get the direction to my payer
-        float dotProduct = Vector3.Dot(toPlayer, gameObject.transform.forward.normalized);
+		float dotProduct = Vector3.Dot(toPlayer, gameObject.transform.forward.normalized);
+
+
+		Debug.Log ("WHAT UP DOT PRODUCT?!?!?");
+		Debug.Log (dotProduct);
         if (dotProduct > 0.5)
         {
             CallInRange(playerLocation);

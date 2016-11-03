@@ -21,11 +21,22 @@ public class PlayerInput : MonoBehaviour {
 	// Update is called once per frame.
     // We poll the left and right sticks, and then call 
 	void Update () {
-        float lStickX = Input.GetAxis("Horizontal");
-        float lStickY = Input.GetAxis("Vertical");
+		float lStickX, lStickY, rStickX = 0, rStickY = 0;
 
-        float rStickX = Input.GetAxis("Right Stick X");
-        float rStickY = Input.GetAxis("Right Stick Y");
+        lStickX = Input.GetAxis("Horizontal");
+        lStickY = Input.GetAxis("Vertical");
+
+		/*
+		 * Input Axis are different depending on if we're in a Mac or Windows environment
+		 */
+
+		if ((Application.platform == RuntimePlatform.WindowsEditor) || (Application.platform == RuntimePlatform.WindowsPlayer)) {
+			rStickX = Input.GetAxis("Right Stick X");
+        	rStickY = Input.GetAxis("Right Stick Y");
+		} else if ((Application.platform == RuntimePlatform.OSXEditor) || (Application.platform == RuntimePlatform.OSXPlayer)) {
+			rStickX = Input.GetAxis("Mac Right Stick X");
+			rStickY = Input.GetAxis("Mac Right Stick Y");
+		}
 
         inputPolled(lStickX, lStickY, rStickX, rStickY);
     }
