@@ -17,9 +17,9 @@ public class Enemy : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player");
         attack = GetComponent<IAttack>();
         movement = GetComponent<IEnemyMovement>(); //get our movement component
-        movement.inRange += InRange; //connect our in range delegate from our movement component to our in range responder here
+        movement.inRange += InRange; //connect our range delegates from our movement component to our range responders
         movement.outRange += OutRange;
-        movement.SetTarget(player.transform.position);
+        movement.SetTarget(player.transform.position); //set the target of our movement scripts to teh player's current position
 	}
 	
 	// Update is called once per frame
