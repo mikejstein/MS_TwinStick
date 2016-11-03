@@ -35,6 +35,15 @@ public class Jump : EnemyMovement {
 
     }
 
+    new void Update()
+    {
+        base.Update();
+        if (transform.position.y < 0.0)
+        {
+            transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z);
+        }
+    }
+
 
     /*
      * What do I do if I'm inside attack range?

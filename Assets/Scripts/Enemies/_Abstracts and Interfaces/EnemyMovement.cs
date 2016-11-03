@@ -26,7 +26,7 @@ abstract public class EnemyMovement : MonoBehaviour, IEnemyMovement
     }
 
     // Update is called once per frame
-    void Update () {
+    protected void Update () {
         Vector3 toPlayer = playerLocation - gameObject.transform.position; //Get the vector from me to the player
         if (toPlayer.magnitude <= avoidRange) // if I'm within avoid range of the player, get away
         {

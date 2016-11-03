@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	protected void Update () {
         if (movement != null)
         {
             movement.SetPlayerLocation(player.transform.position); //every enemy will always know where the player is.

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ChargeAttack : MonoBehaviour {
+public class ChargeAttack : MonoBehaviour, IAttack {
 	
 	public float attackSpeed = 20f;
 	private EnemyMovement move;
