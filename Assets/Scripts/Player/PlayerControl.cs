@@ -7,7 +7,7 @@ using System.Collections;
 public class PlayerControl : MonoBehaviour {
 
     public float moveSpeed = 10; // How fast we move around
-
+    private PlayerBody body; //the mesh representation of the player.
     private Rigidbody rb; //our rigid body
 
     private IPlayerAttack attackComponent;
@@ -15,15 +15,12 @@ public class PlayerControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         PlayerInput.inputPolled += MoveAndShoot; //make sure we're subscribed to the event out of Player Input
-
-        rb = GetComponent<Rigidbody>(); // Connect our rigidibody variable to our rigidbody component
+        body = GetComponentInChildren<PlayerBody>();
+        rb = GetComponent<Rigidbody>(); // Connect our rigidbody variable to our rigidbody component
         attackComponent = GetComponent<IPlayerAttack>(); //cache a reference to our attack script
 	}
 	
-	// Update is called once per frame
-	void Update () {
 	
-	}
 
     private void MoveAndShoot(float leftX, float leftY, float rightX, float rightY)
     {
@@ -33,6 +30,10 @@ public class PlayerControl : MonoBehaviour {
          * Then we multiplly that by our movement units and time since we last ran this function
          */
         Vector3 movement = transform.TransformDirection(new Vector3(leftX, 0, leftY) * moveSpeed * Time.deltaTime);
+        if (movement.magnitude != 0)
+        {
+            body.SetRotation(Quaternion.LookRotation(movement));
+        }
         rb.MovePosition(transform.position + movement);
 
         /* Calculate our shoot vector.

@@ -4,6 +4,7 @@ using System.Collections;
 public class Jump : EnemyMovement {
 
     public float jumpHeight;
+    public float jumpDistance;
 	private GameObject player;
 
     private bool _isJumping = false;
@@ -15,11 +16,14 @@ public class Jump : EnemyMovement {
 			if (value == true)
 			{
 				agent.enabled = false;
-			} else
+
+            }
+            else
 			{
 				agent.enabled = true;
-			}
-			_isJumping = value;
+
+            }
+            _isJumping = value;
 		}
 	}
 
@@ -27,12 +31,14 @@ public class Jump : EnemyMovement {
 	new void Start() {
 		base.Start ();
 		player = GameObject.FindWithTag("Player");
-	}
-	
+        Physics.IgnoreCollision(player.GetComponentInChildren<Collider>(), GetComponent<Collider>(), true);
+
+    }
+
 
     /*
      * What do I do if I'm inside attack range?
-     */ 
+     */
     protected override void insideBehavior()
     {
 		assignTarget(); //always make sure my target is the player location
@@ -56,21 +62,23 @@ public class Jump : EnemyMovement {
 	 */ 
 	protected override void avoidBehavior()
 	{
-		assignTarget();
+		
 		if (isJumping == false) //Only run this check if i'm not currenlty jumping.
 		{
 			if (AmBehindPlayer()) {
+                
 				CallInRange(target); //If I'm behind the player, attack!
 			} else {
-				//Otherwise, jump!
-				Rigidbody rb = GetComponent<Rigidbody>();						
+                //Otherwise, jump!
+                Rigidbody rb = GetComponent<Rigidbody>();						
 				isJumping = true; //we're about to jump, so disable the navmesh agent so I can manually add force
-				Vector3 jumpVector = CalculateJumpVector(); //get my jump vector
-				rb.AddForce(jumpVector);
-				CallOutRange(); //I don't want to shoot, so tell my range delegate that I'm out of range
+
+                Vector3 jumpVector = CalculateJumpVector(); //get my jump vector
+                rb.AddForce(jumpVector);
+                CallOutRange(); //I don't want to shoot, so tell my range delegate that I'm out of range
 			}
-			
-		}
+            assignTarget();
+        }
 		
 	}
 
@@ -86,14 +94,15 @@ public class Jump : EnemyMovement {
 	private Vector3 CalculateJumpVector() {
 		float gravity = Physics.gravity.magnitude; //what my current gravity force is
 		float jumpSpeed = CalculateJumpSpeed(jumpHeight, gravity); //get the velocity needed to jump to the height i want
-		Vector3 directionToPlayer = playerLocation - gameObject.transform.position; //direction I should jump in
+		Vector3 directionToPlayer = (playerLocation - gameObject.transform.position).normalized; //direction I should jump in
 		float jumpForce = gameObject.transform.up.y * jumpSpeed; //make sure I'm always jumping up 
-		return new Vector3(directionToPlayer.x * 55, jumpForce, directionToPlayer.z * 55); //combine my up jump vector and my direction vector, so I jump towards and over the player
+		return new Vector3(directionToPlayer.x * 300, jumpForce, directionToPlayer.z * 300); //combine my up jump vector and my direction vector, so I jump towards and over the player
 	}
     
     private void assignTarget()
     {
         target = playerLocation; //this enemy ALWAYS targets the player, no matter what
+        transform.LookAt(target);
     }
 
 	/*
@@ -102,12 +111,14 @@ public class Jump : EnemyMovement {
 	 */
 	private bool AmBehindPlayer() {
 		Vector3 playerToMe = gameObject.transform.position - playerLocation; //get direction from player to me
-		float dotProduct = Vector3.Dot(playerToMe.normalized, player.transform.forward.normalized);
+        PlayerBody pb = player.GetComponentInChildren<PlayerBody>(); //Get the player body, so I can see what direction the body is looking
+        
+		float dotProduct = Vector3.Dot(playerToMe.normalized, pb.GetForward().normalized);
 		if (dotProduct < -0.5) //I'm in a 90 degree cone BEHIND the player
 		{
-			return false;
-		} else {
 			return true;
+		} else {
+			return false;
 		}
 	}
 	

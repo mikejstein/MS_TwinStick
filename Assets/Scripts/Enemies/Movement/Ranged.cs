@@ -36,18 +36,12 @@ public class Ranged : EnemyMovement {
     {
         target = gameObject.transform.position; //my target is my location
         LerpLookAt(playerLocation); //look at the player
-        Debug.Log("MY Postion: " + transform.position);
-        Debug.Log("Player Position: " + playerLocation);
-
-        
-
+      
         //check to see if target is within a cone of visibility
         // Hooray for linear algebra - dot product will tell the orientiation of player to me : 0 is 90 degree, 1 is in front, -1 is behind
         // So, as long as I'm greater than 0.5, i'm in the right spot.
         Vector3 toPlayer = playerLocation - transform.position; //Get the direction to my plyaer
-        Debug.Log("My vector to player: " + toPlayer);
 		float dotProduct = Vector3.Dot(toPlayer.normalized, transform.forward.normalized);
-        Debug.Log("Dot: " + dotProduct);
         if (dotProduct > 0.5)
         {
             CallInRange(playerLocation);
