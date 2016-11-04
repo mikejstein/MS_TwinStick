@@ -14,11 +14,13 @@ public class PlayerLaserAttack : MonoBehaviour, IPlayerAttack {
     public void Attack(Vector3 InDirection)
     {
         RaycastHit hit;
-        Debug.DrawRay(gameObject.transform.position, InDirection);
         if (Physics.Raycast(gameObject.transform.position, InDirection, out hit))
         {
             DrawWeapon(hit);
-            Debug.Log(hit);
+            if (hit.collider.tag == "Enemy") {
+				GameManager.IncrementScore();
+				Destroy(hit.collider.gameObject);
+			}
         }
     }
 
