@@ -23,7 +23,7 @@ public class PlayerInput : MonoBehaviour {
 	void Update () {
 		float lStickX, lStickY, rStickX = 0, rStickY = 0;
 
-        lStickX = Input.GetAxis("Horizontal");
+        lStickX = Input.GetAxis("Horizontal"); 
         lStickY = Input.GetAxis("Vertical");
 
 		/*

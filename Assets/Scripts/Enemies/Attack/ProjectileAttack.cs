@@ -4,7 +4,6 @@ using System.Collections;
 public class ProjectileAttack : MonoBehaviour, IAttack {
 
 	public GameObject projectile;
-	public GameObject spawnPoint;
 	public float coolDown;
 	protected float lastFireTime;
 
@@ -27,7 +26,8 @@ public class ProjectileAttack : MonoBehaviour, IAttack {
 		if (Time.time - lastFireTime >= coolDown)
 		{
 			GameObject rocket = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
-			rocket.GetComponent<Projectile>().FireAtTarget(target);
+			Physics.IgnoreCollision(rocket.GetComponentInChildren<Collider>(), GetComponent<Collider>(), true);
+			rocket.GetComponent<IProjectile>().FireAtTarget(target);
 			lastFireTime = Time.time;
 		}
 	}
@@ -41,7 +41,9 @@ public class ProjectileAttack : MonoBehaviour, IAttack {
 		if (Time.time - lastFireTime >= coolDown)
 		{
 			GameObject rocket = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
-			rocket.GetComponent<Projectile>().FireAtTarget(target);
+			Physics.IgnoreCollision(rocket.GetComponentInChildren<Collider>(), GetComponent<Collider>(), true);
+
+			rocket.GetComponent<IProjectile>().FireAtTarget(target);
 			lastFireTime = Time.time;
 		}
 		

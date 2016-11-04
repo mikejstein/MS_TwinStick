@@ -27,21 +27,13 @@ public class Jump : EnemyMovement {
 		}
 	}
 
+	new void Update() {
+		base.Update();
+	}
 
 	new void Start() {
 		base.Start ();
 		player = GameObject.FindWithTag("Player");
-        Physics.IgnoreCollision(player.GetComponentInChildren<Collider>(), GetComponent<Collider>(), true);
-
-    }
-
-    new void Update()
-    {
-        base.Update();
-        if (transform.position.y < 0.0)
-        {
-            transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z);
-        }
     }
 
 
@@ -52,7 +44,12 @@ public class Jump : EnemyMovement {
     {
 		assignTarget(); //always make sure my target is the player location
 		if (AmBehindPlayer()) { //only attack if I'm behind the player
-			CallInRange(target);
+			agent.Stop();
+			InRangeOfObject(player);
+			//CallInRange(target);
+		}  else {
+			agent.Resume(); // every frame, we restart the agent. It may get turned off in special cases.
+
 		}
         
     }
@@ -62,6 +59,7 @@ public class Jump : EnemyMovement {
 	 */
     protected override void outsideBehavior()
     {
+		agent.Resume(); // every frame, we restart the agent. It may get turned off in special cases.
 		assignTarget(); //always make sur emy target is the player location
 
     }
@@ -72,12 +70,13 @@ public class Jump : EnemyMovement {
 	protected override void avoidBehavior()
 	{
 		
-		if (isJumping == false) //Only run this check if i'm not currenlty jumping.
+		if (isJumping == false) //Only run this check if i'm not currently jumping.
 		{
 			if (AmBehindPlayer()) {
-                
-				CallInRange(target); //If I'm behind the player, attack!
+				agent.Stop();
+				InRangeOfObject(player);
 			} else {
+				agent.Resume(); // every frame, we restart the agent. It may get turned off in special cases.
                 //Otherwise, jump!
                 Rigidbody rb = GetComponent<Rigidbody>();						
 				isJumping = true; //we're about to jump, so disable the navmesh agent so I can manually add force

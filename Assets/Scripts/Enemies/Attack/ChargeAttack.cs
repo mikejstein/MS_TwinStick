@@ -27,15 +27,21 @@ public class ChargeAttack : MonoBehaviour, IAttack {
 	{
 		move.ChangeSpeed(attackSpeed);
 	}
+
+	public void StartAttack(GameObject target)
+	{
+		StartAttack(target.transform.position);
+	}
 	
 	/*
      * Register that we've hit the player
      */
 	public void OnTriggerEnter(Collider other)
 	{
+		Debug.Log("BAM");
 		if (other.tag == "Player")
 		{
-			Debug.Log("HIT PLAYER");
+			GameManager.DecrementScore();
 		}
 	}
 }

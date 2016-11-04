@@ -25,21 +25,23 @@ public class Projectile : MonoBehaviour, IProjectile {
 		StartCoroutine(EndOfLife());
 	}
 
-	public virtual void FireAtTarget(GameObject newTarget)
-	{
-		FireAtTarget(newTarget.transform.position);
+	public virtual void FireAtTarget(GameObject newTarget) {
 	}
 	
+
 	public void OnTriggerEnter(Collider collider)
 	{
+		Debug.Log ("GROUND CONTROL");
 		if (collider.tag == "Ground")
 		{
 			Destroy(gameObject);
 		}
 		else if (collider.tag == "Player")
 		{
-			Debug.Log("HIT PLAYER");
+			GameManager.DecrementScore();
 			Destroy(gameObject);
 		}
 	}
+
+	//public void OnTrigg
 }

@@ -14,7 +14,8 @@ abstract public class EnemyMovement : MonoBehaviour, IEnemyMovement
     public float attackRange; //how close the enemy gets before they can attack
     public float avoidRange; //How close the enemy gets before it needs to take evasive action
 
-    public event MovedInRange inRange; //Delegate to respond to when the enemy is in range of the player
+    public event MovedInRangeOfLocation inRangeLocation; //Delegate to respond to when the enemy is in range of the player
+	public event MovedInRageOfObject inRangeObject;
     public event MovedOutRange outRange;  //Delegate to respond wo when the enemy is out of range of the player
 
 
@@ -67,13 +68,21 @@ abstract public class EnemyMovement : MonoBehaviour, IEnemyMovement
         }
     }
 
-    protected virtual void CallInRange(Vector3 target)
+    protected virtual void InRangeOfLocation(Vector3 target)
     {
-        if (inRange != null)
+        if (inRangeLocation != null)
         {
-            inRange(target);
+            inRangeLocation(target);
         }
     }
+
+	protected virtual void InRangeOfObject(GameObject target)
+	{
+		if (inRangeObject != null)
+		{
+			inRangeObject(target);
+		}
+	}
 
     protected virtual void CallOutRange()
     {

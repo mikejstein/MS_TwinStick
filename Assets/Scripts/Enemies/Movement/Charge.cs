@@ -11,7 +11,7 @@ public class Charge : EnemyMovement
         if (inRangeStatus == false)
         {
             inRangeStatus = true;
-            CallInRange(target);
+			InRangeOfLocation(target);
         }
         assignTarget();
     }

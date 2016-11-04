@@ -44,7 +44,7 @@ public class Ranged : EnemyMovement {
 		float dotProduct = Vector3.Dot(toPlayer.normalized, transform.forward.normalized);
         if (dotProduct > 0.5)
         {
-            CallInRange(playerLocation);
+			InRangeOfLocation(playerLocation);
         }
     }
 }

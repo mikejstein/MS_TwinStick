@@ -17,7 +17,8 @@ public class Enemy : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player");
         attack = GetComponent<IAttack>();
         movement = GetComponent<IEnemyMovement>(); //get our movement component
-        movement.inRange += InRange; //connect our range delegates from our movement component to our range responders
+		movement.inRangeLocation += InRangeLocation;
+		movement.inRangeObject += InRangeObject;
         movement.outRange += OutRange;
         movement.SetTarget(player.transform.position); //set the target of our movement scripts to teh player's current position
 	}
@@ -31,12 +32,17 @@ public class Enemy : MonoBehaviour {
 	}
 
     //Start attack when I'm in range
-    public void InRange(Vector3 target)
+    public void InRangeLocation(Vector3 target)
     {
         attack.StartAttack(target);
         // tell my attack module to attack
 
     }
+
+	public void InRangeObject(GameObject target) 
+	{
+		attack.StartAttack(target);
+	}
 
     //Stop attack when I'm out of range
     public void OutRange()
