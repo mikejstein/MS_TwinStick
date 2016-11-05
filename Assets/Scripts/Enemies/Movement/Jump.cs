@@ -34,14 +34,21 @@ public class Jump : EnemyMovement {
     protected override void insideBehavior()
     {
 		assignTarget(); //always make sure my target is the player location
-		//if (AmBehindPlayer()) { //only attack if I'm behind the player
-			agent.Stop(); //stop moving
-			InRange(player);
-			//CallInRange(target);
-		//}  else {
-		//	agent.Resume(); // every frame, we restart the agent. It may get turned off in special cases.
+		if (AmBehindPlayer()) { //only attack if I'm behind the player
+            if (agent.isOnNavMesh) //Because this agent jumps, make sure they're on the ground before trying to touch the mesh.
+            {
+                agent.Stop(); //stop moving			
+                InRange(player);
+            }
 
-		//}
+	
+		}  else {
+            if (agent.isOnNavMesh)
+            {
+                agent.Resume(); // every frame, we restart the agent. It may get turned off in special cases.
+            }
+
+		}
         
     }
 
@@ -50,7 +57,10 @@ public class Jump : EnemyMovement {
 	 */
     protected override void outsideBehavior()
     {
-		agent.Resume(); // every frame, we restart the agent. It may get turned off in special cases.
+        if (agent.isOnNavMesh)
+        {
+            agent.Resume(); // every frame, we restart the agent. It may get turned off in special cases.
+        }
 		assignTarget(); //always make sur emy target is the player location
 
     }
@@ -60,12 +70,11 @@ public class Jump : EnemyMovement {
 	 */ 
 	protected override void avoidBehavior()
 	{
-		/*
+
 		if (isJumping == false) //Only run this check if i'm not currently jumping.
 		{
 			if (AmBehindPlayer()) {
 				agent.Stop();
-				Debug.Log("I AM IN RANGE");
 				InRange(player);
 			} else {
 
@@ -82,7 +91,7 @@ public class Jump : EnemyMovement {
 			}
             assignTarget();
         }
-		*/
+
 		assignTarget();
 	}
 

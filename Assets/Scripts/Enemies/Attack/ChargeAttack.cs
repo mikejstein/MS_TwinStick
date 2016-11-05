@@ -31,11 +31,12 @@ public class ChargeAttack : MonoBehaviour, IAttack {
 	/*
      * Register that we've hit the player
      */
-	public void OnTriggerEnter(Collider other)
+	public void OnCollisionEnter(Collision other)
 	{
-		if (other.tag == "Player")
+		if (other.collider.tag == "Player")
 		{
 			GameManager.DecrementScore();
+            Destroy(gameObject);
 		}
 	}
 }

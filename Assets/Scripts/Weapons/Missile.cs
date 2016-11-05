@@ -53,7 +53,6 @@ public class Missile : Projectile {
 
 	private IEnumerator EndOfLife() {
 		yield return new WaitForSeconds(lifeTime);
-		Debug.Log ("DEAD");
 		explode = true;
 	
 		//explode interval is max scale / explode length

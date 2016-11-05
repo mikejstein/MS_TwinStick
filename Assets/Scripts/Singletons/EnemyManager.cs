@@ -8,12 +8,21 @@ public class EnemyManager : MonoBehaviour {
 	private static EnemyManager _instance;
 	
 	public static EnemyManager Instance { get { return _instance; } }
+    public float enemiesInWave = 5;
+
 
 	private float timeSinceLastSpawn; //how long since we last spawned an enemy
 	private int spawnSinceDecrement = 0; //how many enemies have we spawned since we last changed our spawn rate
 	public float minimumSpawnBreak; //Time between spawns - our spawn rate
 	public float spawnBreakFloor; //the fastest enemies will ever spawn
 	public int enemiesPerSpawnRate; //Enemies spawned between changing our spawn rate
+
+
+    private float defaultSpawnBreak;
+    
+
+    //I want to spawn an enemy every 3 seconds.
+    //Eventually, 
 
 	public MonoBehaviour[] prefabs; //Holds our enemy prefabs
 
@@ -22,7 +31,30 @@ public class EnemyManager : MonoBehaviour {
 
 	private float spawnRange;
 
-	private void FixedUpdate() {
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
+    private void Start()
+    {
+        myCamera = FindObjectOfType<Camera>();
+
+        defaultSpawnBreak = minimumSpawnBreak;
+        // Our spawn radius is the x scale of our area. 
+        // This only works if the area is either a cirlce or square - something with equal scale in both X and Z axis
+        spawnRange = ((spawnArea.transform.lossyScale.x) / 2) - 5f;
+    }
+
+
+    private void FixedUpdate() {
 		timeSinceLastSpawn += Time.deltaTime; // Increment our time since we last spawned
 		if (timeSinceLastSpawn >= minimumSpawnBreak) { //If our minimum spawn break is greater than the time since we last spawned
 			SpawnEnemy(); //spawn an enemy
@@ -65,27 +97,23 @@ public class EnemyManager : MonoBehaviour {
 	}
 
 	private void SpawnEnemy() {
-		MonoBehaviour prefab = prefabs[Random.Range(0, prefabs.Length)]; //pick a random enemy to spawn
-		MonoBehaviour spawn = Instantiate<MonoBehaviour>(prefab); //instantiate the random enemy
-		spawn.transform.position = GenerateSpawnPoint();
+        for (int i = 0; i < enemiesInWave; i++)
+        {
+            MonoBehaviour prefab = prefabs[Random.Range(0, prefabs.Length)]; //pick a random enemy to spawn
+            MonoBehaviour spawn = Instantiate(prefab); //instantiate the random enemy
+            spawn.transform.position = GenerateSpawnPoint();
+        }
 	}
 	
-	private void Awake()
-	{
-		if (_instance != null && _instance != this)
-		{
-			Destroy(this.gameObject);
-		} else {
-			_instance = this;
-		}
-	}
 
-	private void Start() {
-		myCamera = FindObjectOfType<Camera>();
 
-		// Our spawn radius is the x scale of our area. 
-		// This only works if the area is either a cirlce or square - something with equal scale in both X and Z axis
-		spawnRange = ((spawnArea.transform.lossyScale.x) / 2) - 5f;
-	}
+    public void ResetSpawn()
+    {
+        minimumSpawnBreak = defaultSpawnBreak;
+        timeSinceLastSpawn = 0;
+        spawnSinceDecrement = 0;
+    }
+
+
 
 }
