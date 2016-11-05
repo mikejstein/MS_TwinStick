@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 /*
- * Abstract base class for an enemy.
+ * Base class for an enemy.
 */
 public class Enemy : MonoBehaviour {
 
@@ -43,4 +43,5 @@ public class Enemy : MonoBehaviour {
             attack.StopAttack();
         }
     }
+
 }

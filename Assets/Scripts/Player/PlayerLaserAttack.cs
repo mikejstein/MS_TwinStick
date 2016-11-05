@@ -6,12 +6,14 @@ using System;
  * Class that defines a laser attack for the player
  */
 public class PlayerLaserAttack : MonoBehaviour, IPlayerAttack, PowerUpResponder {
+    private PlayerSound sound;
     public LineRenderer lineRenderer;
     public float castRadius = 0.1f; //how wide a beam we're shooting
     public float powerTime = 3; //how long the power up impacts the laser
 
     // Use this for initialization
     void Start() {
+        sound = GetComponent("PlayerSound") as PlayerSound; //cache a reference to my sound component
     }
 
 
@@ -30,6 +32,7 @@ public class PlayerLaserAttack : MonoBehaviour, IPlayerAttack, PowerUpResponder 
         {
             if (hit.collider.tag == "Enemy") { //If I hit an enemy, destroy the enemy and increment my score
 				GameManager.IncrementScore();
+                sound.PlayGoodSound();
 				Destroy(hit.collider.gameObject);
 			}
         }
@@ -59,6 +62,7 @@ public class PlayerLaserAttack : MonoBehaviour, IPlayerAttack, PowerUpResponder 
     {
         float oldRadius = castRadius;
         castRadius = 5;
+        sound.PlayGoodItemSound();
         StartCoroutine(EndPower(oldRadius));
     }
     

@@ -35,7 +35,9 @@ public class Projectile : MonoBehaviour, IProjectile {
 		}
 		else if (collider.tag == "Player")
 		{
-			GameManager.DecrementScore();
+            PlayerSound sound = collider.transform.parent.gameObject.GetComponent("PlayerSound") as PlayerSound; // tell my playersound to play the bad sound
+            sound.PlayBadSound();
+            GameManager.DecrementScore();
 			Destroy(gameObject);
 		}
 	}

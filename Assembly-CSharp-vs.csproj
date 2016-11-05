@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ItemManager.cs" />
      <Compile Include="Assets\Scripts\Damage\IDoesDamage.cs" />
      <Compile Include="Assets\Scripts\Enemies\Attack\ChargeAttack.cs" />
      <Compile Include="Assets\Scripts\Enemies\Attack\ProjectileAttack.cs" />
@@ -61,7 +62,6 @@
      <Compile Include="Assets\Scripts\Items\Interfaces\PowerUpResponder.cs" />
      <Compile Include="Assets\Scripts\Items\Interfaces\TrapResponder.cs" />
      <Compile Include="Assets\Scripts\Items\Responders\EnemyTrapResponder.cs" />
-     <Compile Include="Assets\Scripts\Items\Responders\PlayerTrapResponder.cs" />
      <Compile Include="Assets\Scripts\Items\Responders\SizePowerUpResponder.cs" />
      <Compile Include="Assets\Scripts\Player\IPlayerAttack.cs" />
      <Compile Include="Assets\Scripts\Player\IPlayerBody.cs" />
@@ -69,10 +69,11 @@
      <Compile Include="Assets\Scripts\Player\PlayerControl.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerInput.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerLaserAttack.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerSound.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerTrapResponder.cs" />
      <Compile Include="Assets\Scripts\Rotate.cs" />
      <Compile Include="Assets\Scripts\Singletons\EnemyManager.cs" />
      <Compile Include="Assets\Scripts\Singletons\GameManager.cs" />
-     <Compile Include="Assets\Scripts\Singletons\ItemManager.cs" />
      <Compile Include="Assets\Scripts\Weapons\IProjectile.cs" />
      <Compile Include="Assets\Scripts\Weapons\Missile.cs" />
      <Compile Include="Assets\Scripts\Weapons\Projectile.cs" />

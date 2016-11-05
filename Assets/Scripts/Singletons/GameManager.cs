@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour {
 
 	public static void DecrementScore() {
 		Instance.score -= 100;
+        
         if (Instance.score <= 0)
         {
             Instance.EndGame();

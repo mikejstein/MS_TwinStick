@@ -5,7 +5,6 @@ using System.Collections;
  * Class that excutes trap behavior
  */
 public class Trap : MonoBehaviour {
-    public AudioSource audio;
 
 	public void OnTriggerEnter(Collider collider) {
 		//Check to see if the base object has a collider
@@ -25,7 +24,6 @@ public class Trap : MonoBehaviour {
 
     private void Execute(TrapResponder tr)
     {
-        audio.Play();
         Destroy(gameObject); //kill the trap
         ItemManager.Instance.RespawnTrap();
         tr.ExecuteTrap();

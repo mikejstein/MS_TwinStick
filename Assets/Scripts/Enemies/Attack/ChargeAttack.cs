@@ -35,7 +35,9 @@ public class ChargeAttack : MonoBehaviour, IAttack {
 	{
 		if (other.collider.tag == "Player")
 		{
-			GameManager.DecrementScore();
+            PlayerSound sound = other.collider.transform.parent.gameObject.GetComponent("PlayerSound") as PlayerSound; // tell my playersound to play the bad sound
+            sound.PlayBadSound();
+            GameManager.DecrementScore();
             Destroy(gameObject);
 		}
 	}
