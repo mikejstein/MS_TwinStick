@@ -19,19 +19,16 @@ public class Projectile : MonoBehaviour, IProjectile {
 		rb.useGravity = true;
 	}
 
-	public virtual void FireAtTarget(Vector3 newTarget) {
-		Vector3 direction = (newTarget - gameObject.transform.position).normalized;
+
+	public virtual void FireAtTarget(GameObject newTarget) {
+		Vector3 direction = (newTarget.transform.position - gameObject.transform.position).normalized;
 		rb.AddForce(direction * speed);
 		StartCoroutine(EndOfLife());
 	}
-
-	public virtual void FireAtTarget(GameObject newTarget) {
-	}
 	
 
-	public void OnTriggerEnter(Collider collider)
+	public virtual void OnTriggerEnter(Collider collider)
 	{
-		Debug.Log ("GROUND CONTROL");
 		if (collider.tag == "Ground")
 		{
 			Destroy(gameObject);

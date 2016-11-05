@@ -11,7 +11,7 @@ public class Charge : EnemyMovement
         if (inRangeStatus == false)
         {
             inRangeStatus = true;
-			InRangeOfLocation(target);
+			InRange(player);
         }
         assignTarget();
     }
@@ -21,18 +21,19 @@ public class Charge : EnemyMovement
         if (inRangeStatus == true)
         {
             inRangeStatus = false;
-            CallOutRange();
+			InRange(player);
         }
-        assignTarget();
+		assignTarget();
     }
 
     protected override void avoidBehavior()
     {
-        assignTarget();
+		//This enemy doesn't have an avoid behavior.
+		assignTarget();
     }
 
     private void assignTarget()
     {
-        target = playerLocation; //this enemy ALWAYS targets the player, no matter what
+		destination = player.transform.position;
     }
 }

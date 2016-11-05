@@ -6,18 +6,16 @@ abstract public class EnemyMovement : MonoBehaviour, IEnemyMovement
 {
 
     protected NavMeshAgent agent; 
-    protected Vector3 target; //the thing I'm trying to get to.
-    protected Vector3 playerLocation; //the location of the player. This is updated every frame by Enemy.cs
+    protected Vector3 destination; //the thing I'm trying to get to.
+	protected GameObject player;
 
     public float moveSpeed; //how fast the enemy can move
     public float turnSpeed; //how fast they can turn
     public float attackRange; //how close the enemy gets before they can attack
     public float avoidRange; //How close the enemy gets before it needs to take evasive action
 
-    public event MovedInRangeOfLocation inRangeLocation; //Delegate to respond to when the enemy is in range of the player
-	public event MovedInRageOfObject inRangeObject;
-    public event MovedOutRange outRange;  //Delegate to respond wo when the enemy is out of range of the player
-
+	public Action<GameObject> InRange { get; set; }
+	public Action OutRange {get; set;}
 
     protected void Start()
     {
@@ -28,7 +26,7 @@ abstract public class EnemyMovement : MonoBehaviour, IEnemyMovement
 
     // Update is called once per frame
     protected void Update () {
-        Vector3 toPlayer = playerLocation - gameObject.transform.position; //Get the vector from me to the player
+        Vector3 toPlayer = player.transform.position - gameObject.transform.position; //Get the vector from me to the player
         if (toPlayer.magnitude <= avoidRange) // if I'm within avoid range of the player, get away
         {
             avoidBehavior();
@@ -41,59 +39,32 @@ abstract public class EnemyMovement : MonoBehaviour, IEnemyMovement
         {
             insideBehavior();
         }
-        SetTarget(target); //Any of the above behaviors may change my target, which means I need to update my navmesh target
-
+		SetDestination(destination);
     }
-    protected abstract void avoidBehavior();
-    protected abstract void outsideBehavior();
-    protected abstract void insideBehavior();
-
-    /*
-     * Updates the move component with the player's location
-     */
-    public void SetPlayerLocation(Vector3 newPlayerLocation)
-    {
-        playerLocation = newPlayerLocation;
-    }
-
+    
     /*
      * Changes my navmesh agent's target
     */
-    public virtual void SetTarget(Vector3 newTarget)
+    public virtual void SetDestination(Vector3 newDestination)
     {
-        target = newTarget;
-        if (agent.enabled)
+		destination = newDestination;
+		if (agent.enabled)
         {
-            agent.SetDestination(target);
+            agent.SetDestination(destination);
         }
     }
-
-    protected virtual void InRangeOfLocation(Vector3 target)
-    {
-        if (inRangeLocation != null)
-        {
-            inRangeLocation(target);
-        }
-    }
-
-	protected virtual void InRangeOfObject(GameObject target)
-	{
-		if (inRangeObject != null)
-		{
-			inRangeObject(target);
-		}
-	}
-
-    protected virtual void CallOutRange()
-    {
-        if (outRange != null)
-        {
-            outRange();
-        }
-    }
+	
 
     public void ChangeSpeed(float newSpeed)
     {
         agent.speed = newSpeed;
     }
+
+	public void SetPlayer(GameObject p) {
+		player = p;
+	}
+
+	protected abstract void avoidBehavior();
+	protected abstract void outsideBehavior();
+	protected abstract void insideBehavior();
 }

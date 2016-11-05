@@ -23,14 +23,9 @@ public class ChargeAttack : MonoBehaviour, IAttack {
 	/*
      * Start the attack - set move speed to our attack speed
      */
-	public void StartAttack(Vector3 target)
-	{
-		move.ChangeSpeed(attackSpeed);
-	}
-
 	public void StartAttack(GameObject target)
 	{
-		StartAttack(target.transform.position);
+		move.ChangeSpeed(attackSpeed);
 	}
 	
 	/*
@@ -38,7 +33,6 @@ public class ChargeAttack : MonoBehaviour, IAttack {
      */
 	public void OnTriggerEnter(Collider other)
 	{
-		Debug.Log("BAM");
 		if (other.tag == "Player")
 		{
 			GameManager.DecrementScore();

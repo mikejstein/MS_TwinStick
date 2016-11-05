@@ -12,16 +12,21 @@ public class Missile : Projectile {
 
 	private GameObject target; //What I'm targeting
 
-
+	void Awake() {
+		Vector3 newPosition = transform.position + (transform.forward.normalized * 1);
+		transform.position = newPosition;
+		agent = GetComponent<NavMeshAgent>();
+		agent.enabled = true;
+	}
 
 	void Start () {
-		agent = GetComponent<NavMeshAgent>();
 		agent.speed = speed;
 		agent.angularSpeed = missileTurningSpeed;
 		agent.acceleration = missileAcceleration;
 	}
 
 	void Update () {
+
 		if (target != null) {
 			agent.SetDestination(target.transform.position);
 		}
@@ -34,23 +39,21 @@ public class Missile : Projectile {
 			}
 			//
 		}
+
 	}
 
 	public override void FireAtTarget(GameObject newTarget) {
 		target = newTarget;
+		agent.SetDestination(target.transform.position);
 		StartCoroutine(EndOfLife());
 	}
 
-	public override void FireAtTarget(Vector3 newTarget)
-	{
-		agent.SetDestination(newTarget);
-		StartCoroutine(EndOfLife());
-	}
 	
 	// Update is called once per frame
 
 	private IEnumerator EndOfLife() {
 		yield return new WaitForSeconds(lifeTime);
+		Debug.Log ("DEAD");
 		explode = true;
 	
 		//explode interval is max scale / explode length
@@ -58,6 +61,15 @@ public class Missile : Projectile {
 
 		//Destroy(gameObject);
 
+	}
+
+	public override void OnTriggerEnter(Collider collider)
+	{
+		if (collider.tag == "Player")
+		{
+			GameManager.DecrementScore();
+			Destroy(gameObject);
+		}
 	}
 
 

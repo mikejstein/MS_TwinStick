@@ -26,26 +26,11 @@ public class ProjectileAttack : MonoBehaviour, IAttack {
 		if (Time.time - lastFireTime >= coolDown)
 		{
 			GameObject rocket = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
-			Physics.IgnoreCollision(rocket.GetComponentInChildren<Collider>(), GetComponent<Collider>(), true);
-			rocket.GetComponent<IProjectile>().FireAtTarget(target);
-			lastFireTime = Time.time;
-		}
-	}
-	
-	/*
-	 * Attacking a point in space
-	 */
-	public virtual void StartAttack(Vector3 target)
-	{
-		//Instantiate the projectile
-		if (Time.time - lastFireTime >= coolDown)
-		{
-			GameObject rocket = (GameObject)Instantiate(projectile, transform.position, transform.rotation);
-			Physics.IgnoreCollision(rocket.GetComponentInChildren<Collider>(), GetComponent<Collider>(), true);
 
+			Physics.IgnoreCollision(rocket.GetComponentInChildren<Collider>(), GetComponent<Collider>(), true);
 			rocket.GetComponent<IProjectile>().FireAtTarget(target);
 			lastFireTime = Time.time;
 		}
-		
-	}
+	}	
+
 }
